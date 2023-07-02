@@ -15,16 +15,9 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory ::create('fr_FR');
 
         for($nbAds = 1; $nbAds <= 50; $nbAds++){
-            // $employmentContract = $this->getReference('employmentContract_' . $faker->numberBetween(1,7));
-            // $recruiter = $this->getReference(('recruiter_' . 
-            // $faker->numberBetween(1,30);
-            // $department = $this->getReference('department_' . $faker->numberBetween(1,101));
-            // $degree = $this->getReference('degree_' . $faker->numberBetween(1,13));
-            // $town = $this->getReference('town_' . $faker->numberBetween(1,100));
-            // $salary = $this->getReference('salary_' . $faker->numberBetween(1,100));
+            
             $job = $this->getReference('job_' . $faker->numberBetween(1,22));
-        // $product = new Product();
-        // $manager->persist($product);
+  
             $ad = new Ad();
             $ad->setSlug($faker->slug());
             $ad->setTitle($faker->realText(10));
@@ -54,4 +47,3 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
 }
 
 }
-   
