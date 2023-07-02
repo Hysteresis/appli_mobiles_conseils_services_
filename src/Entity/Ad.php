@@ -37,9 +37,13 @@ class Ad
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Job::class)]
+    private Collection $job;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->job = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class Ad
     public function setTitle(?string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJob(): Collection
+    {
+        return $this->job;
+    }
+
+    public function addJob(Job $job): static
+    {
+        if (!$this->job->contains($job)) {
+            $this->job->add($job);
+            $job->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): static
+    {
+        if ($this->job->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getAd() === $this) {
+                $job->setAd(null);
+            }
+        }
 
         return $this;
     }
