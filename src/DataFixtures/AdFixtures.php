@@ -4,44 +4,28 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 
-class AdFixtures extends Fixture
+class AdFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory ::create('fr_FR');
 
-        for($nbAds = 1; $nbAds <= 100; $nbAds++){
-            // $employmentContract = $this->getReference('employmentContract_' . $faker->numberBetween(1,7));
-            // $recruiter = $this->getReference(('recruiter_' . 
-            // $faker->numberBetween(1,30);
-            // $department = $this->getReference('department_' . $faker->numberBetween(1,101));
-            // $degree = $this->getReference('degree_' . $faker->numberBetween(1,13));
-            // $town = $this->getReference('town_' . $faker->numberBetween(1,100));
-            // $salary = $this->getReference('salary_' . $faker->numberBetween(1,100));
-            // $jobList = $this->getReference('job_' . $faker->numberBetween(1,30));
-        // $product = new Product();
-        // $manager->persist($product);
+        for($nbAds = 1; $nbAds <= 50; $nbAds++){
+            
+            $job = $this->getReference('job_' . $faker->numberBetween(1,22));
+  
             $ad = new Ad();
             $ad->setSlug($faker->slug());
-            // $ad->setTitle($faker->realText(10));
-            // $ad->setRecruiter($recruiter);
-            // $ad->setDegree($degree);
-            // $ad->setEmploymentContract($employmentContract);
-            // $ad->setJob($jobList);
-            // $ad->setSalary($salary);
-            // $ad->setTown($town);
+            $ad->setTitle($faker->realText(10));
+            $ad->setRecruiter($faker->company());
+            $ad->setSalary($faker->numberBetween(1800,3500));
             $ad->setDescription($faker->realText(400));
-            // $ad->setDegree($faker->)
-            // $ad->setNumberAd($faker->numberBetween(20000,100000));
-            // $ad->setIsVerified($faker->boolean(80));
-            // $ad->setIsClosed($faker->boolean(20));
-            // $dateTime = $faker->dateTimeThisMonth();
-            // $dateTimeImmutable = \DateTimeImmutable::createFromMutable($dateTime);
-            // $ad->setCreatedAt($dateTimeImmutable);
-            // $ad->setContractStartDate($faker->dateTimeThisMonth());
+            $ad->setDegree('diplôme_' . $faker->numberBetween(1,10));
+            $ad->addJob($job);
 
             $this->addReference('ad_' .$nbAds, $ad);
 
@@ -51,4 +35,15 @@ class AdFixtures extends Fixture
 
         $manager->flush();
     }
+    
+    public function getDependencies()
+    {
+        return[
+            
+            JobFixtures::class,
+            
+
+            ];
+}
+
 }

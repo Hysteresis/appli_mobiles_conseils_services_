@@ -16,6 +16,9 @@ class Job
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
+    #[ORM\ManyToOne(inversedBy: 'job')]
+    private ?Ad $ad = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Job
     public function setName(?string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAd(): ?Ad
+    {
+        return $this->ad;
+    }
+
+    public function setAd(?Ad $ad): static
+    {
+        $this->ad = $ad;
 
         return $this;
     }

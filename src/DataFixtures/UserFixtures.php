@@ -20,17 +20,18 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        
         $faker = Faker\Factory::create('fr_FR');
-            
+        
+        for($nbUsers = 1; $nbUsers <= 20; $nbUsers++){    
             $user = new User();
             
             $user->setEmail($faker->email());
-            $user->setRoles(['ROLE_ADMIN']);
+            $user->setRoles(['ROLE_USER']);
             $user->setPassword($this->encoder->hashPassword($user,'azerty'));
-
             $manager->persist($user);
-
-
+            $this->addReference('user_' . $nbUsers, $user);
+        }
 
             $manager->flush();
     }
