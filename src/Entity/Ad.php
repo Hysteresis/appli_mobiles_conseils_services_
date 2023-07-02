@@ -34,6 +34,9 @@ class Ad
     #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Answer::class)]
     private Collection $answers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title = null;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -130,6 +133,18 @@ class Ad
                 $answer->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }
