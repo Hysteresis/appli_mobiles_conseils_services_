@@ -2,10 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Repository\TownRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TownRepository::class)]
+#[ApiResource( operations : [
+        new Get(),
+        new Post()
+    ]
+)]
 class Town
 {
     #[ORM\Id]
